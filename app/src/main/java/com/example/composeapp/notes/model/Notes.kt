@@ -2,10 +2,15 @@ package com.example.composeapp.notes.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 
-@Entity (tableName = "notes")
-data class Notes(
-    val title: String,
-    val description: String,
-    @PrimaryKey val id: Int?=null
-)
+@Entity(tableName = "notes")
+class Notes {
+
+    var title: String? = null
+    var description: String? = null
+    var embeddings: List<Float>? = null
+    @PrimaryKey
+    var id: Int? = null
+}
+

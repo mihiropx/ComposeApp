@@ -16,9 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.composeapp.notes.NotesViewModel
 import com.example.composeapp.notes.model.Notes
-import com.example.composeapp.notes.navigation.Screen
 import com.google.gson.Gson
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
@@ -37,7 +35,7 @@ fun AddNoteScreen(navController: NavController, noteData: String?) {
     val coroutineScope = rememberCoroutineScope()
 
     var isEditNote = false
-    var notes: Notes? = null
+      var notes: Notes? = null
 
     if (!noteData.isNullOrBlank()) {
         isEditNote = true
@@ -67,16 +65,17 @@ fun AddNoteScreen(navController: NavController, noteData: String?) {
                 .fillMaxWidth()
                 .padding(top = 20.dp),
             value = noteDes,
+            singleLine = true,
             onValueChange = { noteDes = it },
             label = { Text(text = "Description") })
         Button(modifier = Modifier.padding(top = 20.dp), onClick = {
 
             if (noteTitle.isNotBlank() or noteDes.isNotBlank()) {
-                val note = Notes(
-                    title = noteTitle,
-                    description = noteDes,
+                val note = Notes().apply {
+                    title = noteTitle
+                    description = noteDes
                     id = if (isEditNote) notes?.id else null
-                )
+                }
 
                 coroutineScope.launch {
                     if (isEditNote)

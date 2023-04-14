@@ -1,5 +1,6 @@
 package com.example.composeapp.notes.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -36,7 +37,31 @@ fun NoteDetailsScreen(navController: NavHostController, noteData: String) {
 
     var showMenu by remember { mutableStateOf(false) }
 
-    val note=Gson().fromJson(noteData,Notes::class.java)
+    val note = Gson().fromJson(noteData, Notes::class.java)
+
+    var noteTitle by remember {
+        mutableStateOf(note?.title ?: "")
+    }
+
+    var noteDes by remember {
+        mutableStateOf(note?.description ?: "")
+    }
+
+    var noteEmbeddings by remember {
+        mutableStateOf(note?.embeddings ?: "")
+    }
+
+    LaunchedEffect(key1 = "", block = {
+        note?.id?.let {
+
+            val noteDemo = viewModel.getNotesById(it)
+            Log.d("Note", "NoteDetailsScreen: $noteDemo")
+
+            noteTitle = noteDemo.title.toString()
+            noteDes = noteDemo.description.toString()
+            noteDemo.embeddings?.let {  noteEmbeddings = it }
+        }
+    })
 
     Column(
         modifier = Modifier
@@ -51,7 +76,7 @@ fun NoteDetailsScreen(navController: NavHostController, noteData: String) {
 
             Text(
                 modifier = Modifier.weight(8f),
-                text = note?.title?:"Untitled", fontSize = 24.sp, fontWeight = FontWeight.SemiBold
+                text = noteTitle ?: "Untitled", fontSize = 24.sp, fontWeight = FontWeight.SemiBold
             )
 
             Box(modifier = Modifier.weight(1f)) {
@@ -71,7 +96,7 @@ fun NoteDetailsScreen(navController: NavHostController, noteData: String) {
                             Icon(
                                 Icons.Default.Edit,
                                 contentDescription = "Edit"
-                            )
+                             )
                         })
                     DropdownMenuItem(
                         onClick = {
@@ -91,6 +116,8 @@ fun NoteDetailsScreen(navController: NavHostController, noteData: String) {
             }
         }
         Spacer(modifier = Modifier.padding(top = 20.dp))
-        Text(text = note?.description?:"Not found", fontSize = 16.sp)
+        Text(text = noteDes ?: "Not found", fontSize = 16.sp)
+        Spacer(modifier = Modifier.padding(top = 20.dp))
+        Text(text = noteEmbeddings.toString() ?: "Not found", fontSize = 16.sp)
     }
 }

@@ -1,5 +1,7 @@
-package com.example.composeapp.notes.data.repository
+ package com.example.composeapp.notes.data.repository
 
+import com.example.composeapp.ComposeApp
+import com.example.composeapp.helper.Utils
 import com.example.composeapp.notes.data.local_db.NotesDao
 import com.example.composeapp.notes.model.Notes
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +18,7 @@ class NoteRepositoryImpl(
     }
 
     override suspend fun addNote(note: Notes) {
-        notesDao.addNote(note)
+            notesDao.addNote(note)
     }
 
     override suspend fun deleteNote(note: Notes) {
