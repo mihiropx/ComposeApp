@@ -27,20 +27,8 @@ jobs:
           name: apk
           path: app/build/outputs/apk/debug/**.apk
 
-      - name: docker-action-send-skype
-        # You may pin to the exact commit or the version.
-        # uses: Eloco/docker-action-send-skype@6f95f3aba228f3281e3bd6aac48daba3d5598f3d
-        uses: Eloco/docker-action-send-skype@v2
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
         with:
-          # the email address which u input to log in
-          skype_username: eloco@outlook.com
-          # passwd
-          skype_password: qwert
-          # input both user_id or group_id in skype, also support multiple id which connect by space
-          skype_ids: live:.cid.f226e4a7c384157b
-          # default is 19:655268b00f704dfc8e71592f93d73bd3@thread.skype 19:06edc5b67f4a48eda7bfdff034918978@thread.skype
-          # send all the message in the path [support both folder and file, not support sub-folder]
-          send_msg_path: message.txt
-          # send all the file in the path [support both folder and file, not support sub-folder]
-          send_file_path: app/build/outputs/apk/debug/
-          # optional, default is ./downl
+         appId: ${{ secrets.FIREBASE_APP_ID }}
+         file: app/build/outputs/apk/debug/app-debug.apk
