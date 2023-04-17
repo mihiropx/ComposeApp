@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build app
-        run: ./gradlew assembleDebug
-
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
