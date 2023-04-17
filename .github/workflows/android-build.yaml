@@ -1,0 +1,6 @@
+name: Build and Deploy Android App
+
+on:
+push:
+branches:
+-master
